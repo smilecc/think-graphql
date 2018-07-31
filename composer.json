@@ -16,7 +16,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "smilecc\\think": "src/"
+            "smilecc\\think\\": "src/"
         }
     }
 }
