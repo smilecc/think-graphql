@@ -1,9 +1,9 @@
 {
-    "name": "smilecc/tp5-graphql",
+    "name": "smilecc/think-graphql",
     "description": "better graphql sdk for thinkphp 5",
     "type": "library",
     "require": {
-        "php": ">=5.4",
+        "php": ">=7.0",
         "webonyx/graphql-php": "0.12.2"
     },
     "license": "MIT",
