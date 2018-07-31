@@ -224,7 +224,7 @@ class QueryType extends ObjectType
 
 在使用我们的自定义Type的时候，我们只需要返回一个数组既可。
 
-```
+```php
 public function resolveUser($val, $args)
 {
     return [
@@ -239,7 +239,7 @@ public function resolveUser($val, $args)
 
 如果和内部定义的不一致或需要二次处理，那么我们在自定义Type的内部则需要resolve该字段自己处理一下。
 
-```
+```php
 class UserType extends ObjectType
 {
     public function attrs()
