@@ -26,14 +26,6 @@ class ObjectType extends GraphQLObjectType
 
                 return $self->fields();
             },
-            'args' => function () use ($self) {
-                // 判断是否从args传入
-                if (array_key_exists('args', $args)) {
-                    return array_merge($self->args(), $args['args']);
-                }
-
-                return $self->args();
-            },
             'resolveField' => function($val, $args, $context, ResolveInfo $info) {
                 // 替换fieldName中的_下划线
                 $methodName = "resolve" . str_replace('_', '', $info->fieldName);
@@ -68,11 +60,6 @@ class ObjectType extends GraphQLObjectType
     }
 
     public function fields()
-    {
-        return [];
-    }
-
-    public function args()
     {
         return [];
     }
