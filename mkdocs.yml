@@ -9,3 +9,4 @@ pages:
       - 类型注册表: 'type/reg.md'
       - 内置类型: 'type/build-in.md'
       - 自定义类型: 'type/define.md'
+      - 变更与输入类型: 'type/mutation-input.md'

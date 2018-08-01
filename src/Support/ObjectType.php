@@ -12,16 +12,26 @@ class ObjectType extends GraphQLObjectType
     {
         $this->typeConfig = $args;
         // 获取属性
-        $attrs = $this->attrs();
+        $attrs = $this->getAttrs($args);
         $self = $this;
 
         $config = [
             'name' => $attrs['name'],
             'description' => $attrs['desc'],
-            'fields' => function () use ($self) {
+            'fields' => function () use ($self, $args) {
+                // 判断是否从args传入
+                if (array_key_exists('fields', $args)) {
+                    return array_merge($self->fields(), $args['fields']);
+                }
+
                 return $self->fields();
             },
             'args' => function () use ($self) {
+                // 判断是否从args传入
+                if (array_key_exists('args', $args)) {
+                    return array_merge($self->args(), $args['args']);
+                }
+
                 return $self->args();
             },
             'resolveField' => function($val, $args, $context, ResolveInfo $info) {
@@ -45,6 +55,16 @@ class ObjectType extends GraphQLObjectType
             'name' => '',
             'desc' => ''
         ];
+    }
+
+    public function getAttrs($args)
+    {
+        $default = [
+            'name' => '',
+            'desc' => ''
+        ];
+
+        return array_merge($default, $this->attrs(), $args);
     }
 
     public function fields()
