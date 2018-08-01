@@ -6,3 +6,6 @@ pages:
     - 配置: config.md
     - 类型定义:
       - 介绍: 'type/intro.md'
+      - 类型注册表: 'type/reg.md'
+      - 内置类型: 'type/build-in.md'
+      - 自定义类型: 'type/define.md'
