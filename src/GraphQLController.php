@@ -17,8 +17,12 @@ class GraphQLController extends Controller
         $schemaTypes = [];
         
         // 构建当前action对应的获取schema
-        foreach ($types[$action] as $key => $typeClass) {
-            $schemaTypes[$key] = Types::{$action}($key);
+        if (gettype($types[$action]) == 'array') {
+            foreach ($types[$action] as $key => $typeClass) {
+                $schemaTypes[$key] = Types::{$action}($key);
+            }
+        } else {
+            $schemaTypes['query'] = Types::{$action}('query');
         }
 
         $schema = new Schema($schemaTypes);
