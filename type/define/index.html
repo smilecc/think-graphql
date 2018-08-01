@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>自定义类型 - think-graphql</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u81ea\u5b9a\u4e49\u7c7b\u578b";
+    var mkdocs_page_input_path = "type\\define.md";
+    var mkdocs_page_url = "/type/define/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> think-graphql</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">关于</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../started/">开始</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../config/">配置</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">类型定义</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../intro/">介绍</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../reg/">类型注册表</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../build-in/">内置类型</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">自定义类型</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">自定义类型</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#_2">定义方式</a></li>
+        
+            <li><a class="toctree-l4" href="#objecttype">ObjectType</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">think-graphql</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>类型定义 &raquo;</li>
+        
+      
+    
+    <li>自定义类型</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="_1">自定义类型</h1>
+<p>自定义类型可以理解为一种复合类型。</p>
+<h2 id="_2">定义方式</h2>
+<p>只要继承于 <code>smilecc\think\Support\ObjectType</code> 即可轻松定义一个自定义类型 。</p>
+<pre><code class="php">&lt;?php
+namespace app\http\graph\User;
+
+use \smilecc\think\Support\Types;
+use \smilecc\think\Support\ObjectType;
+
+class UserType extends ObjectType
+{
+    public function attrs()
+    {
+        return [
+            'name' =&gt; 'UserType',
+            'desc' =&gt; '用户类型'
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id' =&gt; Types::id(),
+            'nickname' =&gt; Types::string()
+        ];
+    }
+}
+</code></pre>
+
+<p>定义类型之后只需要在 <code>/config/graph.php</code> 的 <code>types</code> 中注册该类型的class即可。</p>
+<pre><code class="php">&lt;?php
+
+return [
+    'types' =&gt; [
+        'user' =&gt; \app\http\graph\User\UserType::class
+    ]
+];
+</code></pre>
+
+<p>随后就可以通过<strong>类型注册表</strong>来使用它了。</p>
+<pre><code class="php">&lt;?php
+namespace app\http\graph;
+
+use \smilecc\think\Support\Types;
+use \smilecc\think\Support\ObjectType;
+
+class GraphType extends ObjectType
+{
+    public function attrs()
+    {
+        return [
+            'name' =&gt; 'GraphType',
+            'desc' =&gt; ''
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            // 刚才注册的UserType
+            'user' =&gt; Types::user()
+        ];
+    }
+}
+</code></pre>
+
+<h2 id="objecttype">ObjectType</h2>
+<pre><code class="php">&lt;?php
+namespace app\http\graph;
+
+use \smilecc\think\Support\Types;
+use \smilecc\think\Support\ObjectType;
+
+class QueryType extends ObjectType
+{
+    public function attrs()
+    {
+        return [
+            'name' =&gt; 'GraphQueryType',
+            'desc' =&gt; 'think-graphql的演示类型'
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'hello_world' =&gt; Types::user(),
+            'user' =&gt; [
+                'type' =&gt; Types::user(),
+                'args' =&gt; [
+                    'id' =&gt; Types::nonNull(Types::id())
+                ]
+            ]
+        ];
+    }
+
+    public function resolveHelloWorld($val, $args)
+    {
+        return 'hello world!!!';
+    }
+
+    public function resolveUser($val, $args)
+    {
+        return [
+            'id' =&gt; $args['id'],
+            'nickname' =&gt; 'TestUser',
+            'created_time' =&gt; '2018-07-31 17:21:50'
+        ];
+    }
+}
+
+</code></pre>
+
+<ul>
+<li><code>attrs</code> 定义了该Type的名称及描述。</li>
+<li><code>fields</code> 定义了该Type的返回字段。</li>
+</ul>
+<p>此例中我们定义了一个名叫<code>hello_world</code>的字段，那么只需要定义一个<code>resolveHelloWorld</code>方法为他设置一个值。</p>
+<p>我们可以看出字段中使用下划线或小驼峰的情况，我们在<code>resolve</code>时可以直接使用大驼峰来处理它。</p>
+<p>例如<code>hello_world</code>-&gt;<code>resolveHelloWorld</code>、<code>craeted_time</code>-&gt;<code>resolveCreatedTime</code>。</p>
+<p>在使用我们的自定义Type的时候，我们只需要返回一个数组既可。</p>
+<pre><code class="php">public function resolveUser($val, $args)
+{
+    return [
+        'id' =&gt; $args['id'],
+        'nickname' =&gt; 'TestUser',
+        'created_time' =&gt; '2018-07-31 17:21:50'
+    ];
+}
+</code></pre>
+
+<p>在自定义Type的内部，如果我们在外层返回数组中的字段名和自定义Type内部fields中设置的相同，那么无需任何操作，<code>think-graphql</code>会自动帮你返回该值。</p>
+<p>如果和内部定义的不一致或需要二次处理，那么我们在自定义Type的内部则需要resolve该字段自己处理一下。</p>
+<pre><code class="php">class UserType extends ObjectType
+{
+    public function attrs()
+    {
+        return [
+            'name' =&gt; 'UserType',
+            'desc' =&gt; '用户类型'
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id' =&gt; Types::id(),
+            'nickname' =&gt; Types::string(),
+            'created_time' =&gt; Types::string()
+        ];
+    }
+
+    public function resolveCreatedTime($val)
+    {
+        return strtotime($val['created_time']);
+    }
+}
+</code></pre>
+
+<p>在这个例子中我们就把上层传递过来的数据 <code>$val</code> 中的 <code>created_time</code> 转换成时间戳再返回。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../build-in/" class="btn btn-neutral" title="内置类型"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../build-in/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/require.js"></script>
+      <script src="../../search/search.js"></script>
+
+</body>
+</html>

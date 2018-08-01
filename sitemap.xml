@@ -20,4 +20,19 @@
      <lastmod>2018-08-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
+    <url>
+     <loc>/type/reg/</loc>
+     <lastmod>2018-08-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>/type/build-in/</loc>
+     <lastmod>2018-08-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>/type/define/</loc>
+     <lastmod>2018-08-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
 </urlset>

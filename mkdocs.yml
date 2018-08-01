@@ -1,8 +1,0 @@
-site_name: think-graphql
-theme: readthedocs
-pages:
-    - 关于: index.md
-    - 开始: started.md
-    - 配置: config.md
-    - 类型定义:
-      - 介绍: 'type/intro.md'

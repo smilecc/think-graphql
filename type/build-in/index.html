@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>介绍 - think-graphql</title>
+  <title>内置类型 - think-graphql</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
@@ -17,9 +17,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u4ecb\u7ecd";
-    var mkdocs_page_input_path = "type\\intro.md";
-    var mkdocs_page_url = "/type/intro/";
+    var mkdocs_page_name = "\u5185\u7f6e\u7c7b\u578b";
+    var mkdocs_page_input_path = "type\\build-in.md";
+    var mkdocs_page_url = "/type/build-in/";
   </script>
   
   <script src="../../js/jquery-2.1.1.min.js"></script>
@@ -66,31 +66,31 @@
 		
     <span class="caption-text">类型定义</span>
     <ul class="subnav">
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">介绍</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#_1">介绍</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#_2">定义类型</a></li>
-        
-            <li><a class="toctree-l4" href="#_3">类型注册表</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../intro/">介绍</a>
                 </li>
                 <li class="">
                     
     <a class="" href="../reg/">类型注册表</a>
                 </li>
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../build-in/">内置类型</a>
+    <a class="current" href="./">内置类型</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#_1">内置类型</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#_2">可用类型</a></li>
+        
+            <li><a class="toctree-l4" href="#_3">注意</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
@@ -125,7 +125,7 @@
         
       
     
-    <li>介绍</li>
+    <li>内置类型</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -135,43 +135,63 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">介绍</h1>
-<p>在GraphQL中，类型（Type）起到非常重要的作用。</p>
-<p>在<code>think-graphql</code>中，所有的类型父类都定义在 <code>smilecc\think\Support</code> 中，类 <code>smilecc\think\Support\Types</code> 是所有Type的注册表。</p>
-<h2 id="_2">定义类型</h2>
+                <h1 id="_1">内置类型</h1>
+<p>内置类型或称基础类型，这些类型基本上是语言构成的基础类型。</p>
+<h2 id="_2">可用类型</h2>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>id类型，可视为字符串</td>
+</tr>
+<tr>
+<td>int</td>
+<td>整型</td>
+</tr>
+<tr>
+<td>float</td>
+<td>浮点数</td>
+</tr>
+<tr>
+<td>string</td>
+<td>字符串</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>布尔值</td>
+</tr>
+<tr>
+<td>nonNull</td>
+<td>非空类型</td>
+</tr>
+<tr>
+<td>listOf</td>
+<td>列表类型</td>
+</tr>
+</tbody>
+</table>
+<p>其中 <code>nonNull</code> 和 <code>listOf</code> 类型是用来定义子类型特性的，例如：</p>
 <pre><code class="php">&lt;?php
-namespace app\http\graph\User;
-
-use \smilecc\think\Support\Types;
-use \smilecc\think\Support\ObjectType;
-
-class UserType extends ObjectType
-{
-    public function attrs()
-    {
-        return [
-            'name' =&gt; 'UserType',
-        ];
-    }
-
-    public function fields()
-    {
-        return [
-            'id' =&gt; Types::id()
-        ];
-    }
-}
-</code></pre>
-
-<h2 id="_3">类型注册表</h2>
-<p>类 <code>smilecc\think\Support\Types</code> 是所有Type的注册表，通过调用该类的静态方法可获取到所有的<strong>内置类型</strong>和<strong>自定义类型</strong>。</p>
-<pre><code class="php">&lt;?php
-
 use smilecc\think\Support\Types;
 
-Types::int();
-Types::string();
+// 定义一个不允许为null的string类型
+Types::nonNull(Types::string());
+
+// 定义一个int的数组类型
+Types::listOf(Types::int());
 </code></pre>
+
+<h2 id="_3">注意</h2>
+<ul>
+<li><code>int</code> 类型在32位php中会是 <code>int32</code> 类型，所以没有办法存储例如手机号等较长数字，可以使用 <code>float</code> 代替</li>
+<li><code>id</code> 类型在json输出中认为是字符串类型，这是为了针对于例如 <code>uuid</code> 等字符类型的id</li>
+</ul>
               
             </div>
           </div>
@@ -179,10 +199,10 @@ Types::string();
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../reg/" class="btn btn-neutral float-right" title="类型注册表">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../define/" class="btn btn-neutral float-right" title="自定义类型">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../../config/" class="btn btn-neutral" title="配置"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../reg/" class="btn btn-neutral" title="类型注册表"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -208,10 +228,10 @@ Types::string();
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../../config/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../reg/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../reg/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../define/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

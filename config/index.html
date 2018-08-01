@@ -72,8 +72,6 @@
         
             <li><a class="toctree-l3" href="#routeprefix">routePrefix</a></li>
         
-            <li><a class="toctree-l3" href="#type">定义Type</a></li>
-        
         </ul>
     
 
@@ -87,6 +85,18 @@
                 <li class="">
                     
     <a class="" href="../type/intro/">介绍</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../type/reg/">类型注册表</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../type/build-in/">内置类型</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../type/define/">自定义类型</a>
                 </li>
     </ul>
 	    </li>
@@ -223,104 +233,9 @@ return [
 ];
 </code></pre>
 
-<p>这样我们就会拥有<code>/api/user</code>和<code>/api/admin</code>两个入口来处理不同的业务了。</p>
+<p>这样我们就会拥有 <code>/api/user</code> 和 <code>/api/admin</code> 两个入口来处理不同的业务了。</p>
 <h3 id="routeprefix">routePrefix</h3>
-<p><code>routePrefix</code>是路由的前缀，默认的配置中使用的是<code>api/</code>，此时我们使用<code>api/user</code>来作为入口，如果我们不喜欢<code>api/</code>可以将其自定义，例如将其修改为<code>v1/</code>后，那我们我们的入口就会变成<code>/v1/user</code>。</p>
-<h2 id="type">定义Type</h2>
-<h3 id="objecttype">ObjectType</h3>
-<pre><code class="php">&lt;?php
-namespace app\http\graph;
-
-use \smilecc\think\Support\Types;
-use \smilecc\think\Support\ObjectType;
-
-class QueryType extends ObjectType
-{
-    public function attrs()
-    {
-        return [
-            'name' =&gt; 'GraphQueryType',
-            'desc' =&gt; 'think-graphql的演示类型'
-        ];
-    }
-
-    public function fields()
-    {
-        return [
-            'hello_world' =&gt; Types::user(),
-            'user' =&gt; [
-                'type' =&gt; Types::user(),
-                'args' =&gt; [
-                    'id' =&gt; Types::nonNull(Types::id())
-                ]
-            ]
-        ];
-    }
-
-    public function resolveHelloWorld($val, $args)
-    {
-        return 'hello world!!!';
-    }
-
-    public function resolveUser($val, $args)
-    {
-        return [
-            'id' =&gt; $args['id'],
-            'nickname' =&gt; 'TestUser',
-            'created_time' =&gt; '2018-07-31 17:21:50'
-        ];
-    }
-}
-
-</code></pre>
-
-<ul>
-<li><code>attrs</code> 定义了该Type的名称及描述。</li>
-<li><code>fields</code> 定义了该Type的返回字段。</li>
-</ul>
-<p>此例中我们定义了一个名叫<code>hello_world</code>的字段，那么只需要定义一个<code>resolveHelloWorld</code>方法为他设置一个值。</p>
-<p>我们可以看出字段中使用下划线或小驼峰的情况，我们在<code>resolve</code>时可以直接使用大驼峰来处理它。</p>
-<p>例如<code>hello_world</code>-&gt;<code>resolveHelloWorld</code>、<code>craeted_time</code>-&gt;<code>resolveCreatedTime</code>。</p>
-<p>在使用我们的自定义Type的时候，我们只需要返回一个数组既可。</p>
-<pre><code class="php">public function resolveUser($val, $args)
-{
-    return [
-        'id' =&gt; $args['id'],
-        'nickname' =&gt; 'TestUser',
-        'created_time' =&gt; '2018-07-31 17:21:50'
-    ];
-}
-</code></pre>
-
-<p>在自定义Type的内部，如果我们在外层返回数组中的字段名和自定义Type内部fields中设置的相同，那么无需任何操作，<code>think-graphql</code>会自动帮你返回该值。</p>
-<p>如果和内部定义的不一致或需要二次处理，那么我们在自定义Type的内部则需要resolve该字段自己处理一下。</p>
-<pre><code class="php">class UserType extends ObjectType
-{
-    public function attrs()
-    {
-        return [
-            'name' =&gt; 'UserType',
-            'desc' =&gt; '用户类型'
-        ];
-    }
-
-    public function fields()
-    {
-        return [
-            'id' =&gt; Types::id(),
-            'nickname' =&gt; Types::string(),
-            'created_time' =&gt; Types::string()
-        ];
-    }
-
-    public function resolveCreatedTime($val)
-    {
-        return strtotime($val['created_time']);
-    }
-}
-</code></pre>
-
-<p>在这个例子中我们就把上层传递过来的数据($val)中的<code>created_time</code>转换成时间戳再返回。</p>
+<p><code>routePrefix</code> 是路由的前缀，默认的配置中使用的是 <code>api/</code> ，此时我们使用 <code>api/user</code> 来作为入口，如果我们不喜欢 <code>api/</code> 可以将其自定义，例如将其修改为 <code>v1/</code> 后，那我们我们的入口就会变成 <code>/v1/user</code>。</p>
               
             </div>
           </div>
