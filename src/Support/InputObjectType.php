@@ -22,8 +22,10 @@ class InputObjectType extends GraphQLInputObjectType
         }
 
         // 替换简称
-        $config['description'] = $config['desc'];
-        unset($config['desc']);
+        if (array_key_exists('desc', $config)) {
+            $config['description'] = $config['desc'];
+            unset($config['desc']);
+        }
 
         parent::__construct($config);
     }

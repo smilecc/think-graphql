@@ -27,6 +27,11 @@ class ObjectType extends GraphQLObjectType
                 return $self->fields();
             },
             'resolveField' => function($val, $args, $context, ResolveInfo $info) {
+                // 如果定义了resolveField则使用它
+                if (method_exists($this, 'resolveField')) {
+                    return $this->resolveField($val, $args, $context, $info);
+                }
+
                 // 替换fieldName中的_下划线
                 $methodName = "resolve" . str_replace('_', '', $info->fieldName);
 
