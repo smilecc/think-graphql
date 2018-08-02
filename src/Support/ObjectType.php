@@ -21,10 +21,29 @@ class ObjectType extends GraphQLObjectType
             'fields' => function () use ($self, $args) {
                 // 判断是否从args传入
                 if (array_key_exists('fields', $args)) {
-                    return array_merge($self->fields(), $args['fields']);
+                    $fields = array_merge($self->fields(), $args['fields']);
+                } else {
+                    $fields = $self->fields();
                 }
 
-                return $self->fields();
+                foreach ($fields as $key => &$field) {
+                    if (is_array($field)) {
+                        // 过滤fields简写
+                        if (array_key_exists('desc', $field)) {
+                            $field['description'] = $field['desc'];
+                        }
+                        // 过滤args简写
+                        if (array_key_exists('args', $field) && is_array($field['args'])) {
+                            foreach ($field['args'] as $key => &$arg) {
+                                if (is_array($arg) && array_key_exists('desc', $arg)) {
+                                    $arg['description'] = $arg['desc'];
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return $fields;
             },
             'resolveField' => function($val, $args, $context, ResolveInfo $info) {
                 // 如果定义了resolveField则使用它

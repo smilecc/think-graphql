@@ -24,8 +24,8 @@ class Types
             if (array_key_exists(1, $arguments)) {
                 $typeConfig = $arguments[1];
                 // 如果设置了TypeName 则改变TypeName
-                if (array_key_exists('typeName', $typeConfig)) {
-                    $typeName = $typeConfig['typeName'];
+                if (array_key_exists('name', $typeConfig)) {
+                    $typeName = $typeConfig['name'];
                 }
             }
 
