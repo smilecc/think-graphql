@@ -15,6 +15,20 @@ class GraphQLController extends Controller
         $config = config('graph.');
         $types = $config['types'];
         $schemaTypes = [];
+
+        if (in_array($action, $config['schema']) || array_key_exists($action, $config['schema'])) {
+            // 如果为key则使用其value作为action
+            if (array_key_exists($action, $config['schema'])) {
+                $action = $config['schema'][$action];
+            }
+        } else {
+            throw new \think\exception\HttpException(404, "[$action] 未在 schema 中定义");
+        }
+
+        // 判断action是否在types中
+        if (!array_key_exists($action, $types)) {
+            throw new \think\exception\HttpException(404, "Type [$action] 未在 types 中定义");
+        }
         
         // 构建当前action对应的获取schema
         if (gettype($types[$action]) == 'array') {
