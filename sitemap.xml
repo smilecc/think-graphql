@@ -45,4 +45,19 @@
      <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
+    <url>
+     <loc>/type/scalar-enum/</loc>
+     <lastmod>2018-08-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>/command/</loc>
+     <lastmod>2018-08-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>/middleware/</loc>
+     <lastmod>2018-08-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
 </urlset>

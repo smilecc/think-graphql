@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>配置 - think-graphql</title>
+  <title>中间件 - think-graphql</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,9 +17,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u914d\u7f6e";
-    var mkdocs_page_input_path = "config.md";
-    var mkdocs_page_url = "/config/";
+    var mkdocs_page_name = "\u4e2d\u95f4\u4ef6";
+    var mkdocs_page_input_path = "middleware.md";
+    var mkdocs_page_url = "/middleware/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -57,25 +57,9 @@
     <a class="" href="../started/">开始</a>
 	    </li>
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href="./">配置</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#_1">配置</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#types">types</a></li>
-        
-            <li><a class="toctree-l3" href="#schema">schema</a></li>
-        
-            <li><a class="toctree-l3" href="#routeprefix">routePrefix</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../config/">配置</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -118,9 +102,23 @@
     <a class="" href="../command/">命令行</a>
 	    </li>
           
-            <li class="toctree-l1">
+            <li class="toctree-l1 current">
 		
-    <a class="" href="../middleware/">中间件</a>
+    <a class="current" href="./">中间件</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#_1">中间件</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#_2">定义中间件</a></li>
+        
+            <li><a class="toctree-l3" href="#_3">注册中间件</a></li>
+        
+        </ul>
+    
+
+    </ul>
 	    </li>
           
         </ul>
@@ -145,7 +143,7 @@
     
       
     
-    <li>配置</li>
+    <li>中间件</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -155,109 +153,38 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="_1">配置</h1>
-<p>配置文件位于<code>/config/graph.php</code>。</p>
-<p>默认为如下内容：</p>
+                <h1 id="_1">中间件</h1>
+<p><code>think-graphql</code> 的中间件用于在请求时处理或拦截用户请求，<code>think-graphql</code> 的中间件只对GraphQL的接口生效。</p>
+<h2 id="_2">定义中间件</h2>
+<p>定义中间件的方法参见 <a href="https://www.kancloud.cn/manual/thinkphp5_1/564279">ThinkPHP的中间件</a>。</p>
+<p>所使用的中间件类的示例如下。</p>
 <pre><code class="php">&lt;?php
 
-return [
-    'types' =&gt; [
-        'graph' =&gt; [
-            'query' =&gt; \app\http\graph\QueryType::class
-        ],
-        'user' =&gt; [
-            'query' =&gt; \app\http\graph\User\UserType::class
-        ]
-    ],
-    'schema' =&gt; [
-        'graph'
-    ],
-    'routePrefix' =&gt; 'api/'
-];
-</code></pre>
+namespace app\http\middleware;
 
-<table>
-<thead>
-<tr>
-<th>配置项</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>types</td>
-<td>所有GraphQL的Type</td>
-</tr>
-<tr>
-<td>schema</td>
-<td>定义入口Type</td>
-</tr>
-<tr>
-<td>routePrefix</td>
-<td>路由前缀</td>
-</tr>
-</tbody>
-</table>
-<h3 id="types">types</h3>
-<p>用于定义你在项目中所使用的Types，例如</p>
-<pre><code class="php">'types' =&gt; [
-    'user' =&gt; [
-        'query' =&gt; \app\http\graph\UserType::class
-        'mutation' =&gt; \app\http\graph\UserMutationType::class
-    ]
-]
-</code></pre>
-
-<p>此时在此定义<code>user</code>之后，我们就可以使用<code>Types::user()</code>获取这个Type，例如。</p>
-<pre><code class="php">&lt;?php
-namespace app\http\graph;
-
-use \smilecc\think\Support\Types;
-use \smilecc\think\Support\ObjectType;
-
-class QueryType extends ObjectType
+class Check
 {
-    public function fields()
+    public function handle($request, \Closure $next)
     {
-        return [
-            'user' =&gt; Types::user()
-        ];
+        if ($request-&gt;param('name') == 'think') {
+            return redirect('index/think');
+        }
+
+        return $next($request);
     }
 }
 </code></pre>
 
-<p>在默认情况下调用<code>Types::user()</code>会自动实例化配置中<code>query</code>所对应的class，而如果需要实例化<code>mutation</code>的话，那么只需要调用<code>Types::user('mutation')</code>即可。</p>
-<h3 id="schema">schema</h3>
-<p><code>schema</code>是定义入口type的数组，例如默认内容中我们定义了：</p>
-<pre><code class="php">'schema' =&gt; [
-    'graph'
+<h2 id="_3">注册中间件</h2>
+<p>在 <code>/config/graph.php</code> 中找到 <code>middleware</code> 配置数组，将你定义的中间件加入即可。</p>
+<pre><code class="php">'middleware' =&gt; [
+    app\http\middleware\Check::class
 ]
 </code></pre>
 
-<p>这时我们的<code>http://example.com/api/graph</code>就会变成一个入口，我们在设置将这个地址<code>endpoint</code>，就可以将它作为请求的入口了。</p>
-<p>所以我们可以有多个入口，例如</p>
-<pre><code class="php">&lt;?php
-
-return [
-    'types' =&gt; [
-        'user' =&gt; [
-            'query' =&gt; \app\http\graph\User\UserType::class
-        ],
-        'admin' =&gt; [
-            'query' =&gt; \app\http\graph\Admin\AdminType::class
-        ]
-    ],
-    'schema' =&gt; [
-        'user',
-        'admin'
-    ],
-    'routePrefix' =&gt; 'api/'
-];
+<p>或</p>
+<pre><code class="php">'middleware' =&gt; app\http\middleware\Check::class
 </code></pre>
-
-<p>这样我们就会拥有 <code>/api/user</code> 和 <code>/api/admin</code> 两个入口来处理不同的业务了。</p>
-<h3 id="routeprefix">routePrefix</h3>
-<p><code>routePrefix</code> 是路由的前缀，默认的配置中使用的是 <code>api/</code> ，此时我们使用 <code>api/user</code> 来作为入口，如果我们不喜欢 <code>api/</code> 可以将其自定义，例如将其修改为 <code>v1/</code> 后，那我们我们的入口就会变成 <code>/v1/user</code>。</p>
               
             </div>
           </div>
@@ -265,10 +192,8 @@ return [
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../type/intro/" class="btn btn-neutral float-right" title="介绍">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-      
-        <a href="../started/" class="btn btn-neutral" title="开始"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../command/" class="btn btn-neutral" title="命令行"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -294,10 +219,8 @@ return [
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../started/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../command/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-      
-        <span style="margin-left: 15px"><a href="../type/intro/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

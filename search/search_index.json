@@ -229,6 +229,66 @@
             "location": "/type/mutation-input/#_2",
             "text": "<?php\nuse \\smilecc\\think\\Support\\Types;\nuse \\smilecc\\think\\Support\\ObjectType;\nuse \\smilecc\\think\\Support\\InputObjectType;\n\nclass QueryType extends ObjectType\n{\n    public function attrs()\n    {\n        return [\n            'name' => 'GraphQueryType'\n        ];\n    }\n\n    public function fields()\n    {\n        return [\n            'createUser' => [\n                'type' => Types::user(),\n                'args' => [\n                    'user' => new InputObjectType([\n                        'name' => 'UserInputType',\n                        'desc' => '\u7528\u6237\u7684\u8f93\u5165\u7c7b\u578b',\n                        'fields' => [\n                            'telephone' => Types::string(),\n                            'password' => Types::string()\n                        ]\n                    ])\n                ]\n            ]\n        ];\n    }\n\n    public function resolveCreateUser($val, $args)\n    {\n        // \u6211\u4eec\u8f93\u5165\u7684\u6570\u636e\n        $user = $args['user'];\n    }\n}  \u968f\u540e\u6211\u4eec\u5c31\u53ef\u4ee5\u5728  mutation  \u65f6\u901a\u8fc7  variables  \u4f20\u5165\u7528\u6237\u6570\u636e\u4e86\u3002  \u8bf7\u6c42\u5185\u5bb9\uff1a  mutation createUser($user: UserInputType) {\n  createUser(user: $user) {\n    id\n    token\n  }\n}  variables \u5185\u5bb9\uff1a  {\n  \"user\": {\n    \"telephone\": \"123\",\n    \"password\": \"abc\"\n  }\n}",
             "title": "\u4f7f\u7528\u8f93\u5165\u7c7b\u578b"
+        },
+        {
+            "location": "/type/scalar-enum/",
+            "text": "\u6807\u91cf\u4e0e\u679a\u4e3e\n\n\n\u6807\u91cf\n\n\n\u6b63\u5728\u5f00\u53d1\u4e2d\uff0c\u76ee\u524d\u53ef\u4ee5\u4f7f\u7528 \ngraphql-php\u4e2d\u7684\u6807\u91cf\u7c7b\u578b\u5b9a\u4e49\n \u529e\u6cd5\u53bb\u5b9a\u4e49\u6807\u91cf\u3002\n\n\n\u679a\u4e3e\n\n\n\u6b63\u5728\u5f00\u53d1\u4e2d\uff0c\u76ee\u524d\u53ef\u4ee5\u4f7f\u7528 \ngraphql-php\u4e2d\u7684\u679a\u4e3e\u7c7b\u578b\u5b9a\u4e49\n \u529e\u6cd5\u53bb\u5b9a\u4e49\u679a\u4e3e\u7c7b\u578b\u3002",
+            "title": "\u6807\u91cf\u4e0e\u679a\u4e3e"
+        },
+        {
+            "location": "/type/scalar-enum/#_1",
+            "text": "",
+            "title": "\u6807\u91cf\u4e0e\u679a\u4e3e"
+        },
+        {
+            "location": "/type/scalar-enum/#_2",
+            "text": "\u6b63\u5728\u5f00\u53d1\u4e2d\uff0c\u76ee\u524d\u53ef\u4ee5\u4f7f\u7528  graphql-php\u4e2d\u7684\u6807\u91cf\u7c7b\u578b\u5b9a\u4e49  \u529e\u6cd5\u53bb\u5b9a\u4e49\u6807\u91cf\u3002",
+            "title": "\u6807\u91cf"
+        },
+        {
+            "location": "/type/scalar-enum/#_3",
+            "text": "\u6b63\u5728\u5f00\u53d1\u4e2d\uff0c\u76ee\u524d\u53ef\u4ee5\u4f7f\u7528  graphql-php\u4e2d\u7684\u679a\u4e3e\u7c7b\u578b\u5b9a\u4e49  \u529e\u6cd5\u53bb\u5b9a\u4e49\u679a\u4e3e\u7c7b\u578b\u3002",
+            "title": "\u679a\u4e3e"
+        },
+        {
+            "location": "/command/",
+            "text": "\u547d\u4ee4\u884c\n\n\nthink-graphql\n \u4e3a\u4f60\u63d0\u4f9b\u4e86\u4e00\u4e9b\u5e38\u7528\u3001\u4fbf\u6377\u7684\u547d\u4ee4\uff0c\u4f7f\u7528\u547d\u4ee4\u884c\u9700\u8981\u7cfb\u7edf\u7684\u73af\u5883\u53d8\u91cf\u4e2d\u6709 \nphp\n\u3002\n\n\n\u4ee5\u4e0b\u6240\u6709\u547d\u4ee4\u7684\u524d\u7f00\u90fd\u662f \nphp think graph\n\uff0c\u4e14\u9700\u8981\u5728\u7ad9\u70b9\u7684\u6839\u76ee\u5f55\u4e2d\u8fd0\u884c\u3002\n\n\n$ php think graph init\n\n\n\n\n\u521d\u59cb\u5316\n\n\n$ php think graph init\n\n\n\n\n\n\n\n\n\n\n\u53ef\u9009\u53c2\u6570\n\n\n\u8bf4\u660e\n\n\n\n\n\n\n\n\n\n\nforce\n\n\n\u5f3a\u5236\u91cd\u65b0\u521d\u59cb\u5316\uff0c\n\u4f1a\u8986\u76d6\u6389\u4e4b\u524d\u7684\u914d\u7f6e\n\uff0c\u8bf7\u5c0f\u5fc3\u4f7f\u7528\uff0c\u4f8b\u5982 \nphp think graph init --force\n\n\n\n\n\n\n\n\n\u521b\u5efa\n\n\n\u521b\u5efa\u6a21\u7248\u6587\u4ef6\uff0c\u76ee\u524d\u652f\u6301\u751f\u6210\nObjectType\n\u6a21\u7248\u3002\n\n\n$ php think graph make --type http/BlogType\n\n\n\n\n\n\n\n\n\n\n\u53ef\u9009\u53c2\u6570\n\n\n\u8bf4\u660e\n\n\n\n\n\n\n\n\n\n\ntype\n\n\n\u751f\u6210\u4e00\u4e2a\nObjectType\n\u6a21\u7248\u6587\u4ef6\uff0c\u751f\u6210\u51fa\u6765\u7684\u6587\u4ef6\u5c06\u4f1a\u5728\napplication\n\u6587\u4ef6\u5939\u7684\u5bf9\u5e94\u8def\u5f84\u4e2d\uff0c\u4f8b\u5982 \nphp think graph make --type http/BlogType\n\u5c06\u4f1a\u751f\u6210\n/application/http/BlogType.php\n\n\n\n\n\n\nforce\n\n\n\u5f3a\u5236\u91cd\u65b0\u751f\u6210\u6a21\u7248\u6587\u4ef6\uff0c\u4f8b\u5982 \nphp think graph make --type http/BlogTyp --force",
+            "title": "\u547d\u4ee4\u884c"
+        },
+        {
+            "location": "/command/#_1",
+            "text": "think-graphql  \u4e3a\u4f60\u63d0\u4f9b\u4e86\u4e00\u4e9b\u5e38\u7528\u3001\u4fbf\u6377\u7684\u547d\u4ee4\uff0c\u4f7f\u7528\u547d\u4ee4\u884c\u9700\u8981\u7cfb\u7edf\u7684\u73af\u5883\u53d8\u91cf\u4e2d\u6709  php \u3002  \u4ee5\u4e0b\u6240\u6709\u547d\u4ee4\u7684\u524d\u7f00\u90fd\u662f  php think graph \uff0c\u4e14\u9700\u8981\u5728\u7ad9\u70b9\u7684\u6839\u76ee\u5f55\u4e2d\u8fd0\u884c\u3002  $ php think graph init",
+            "title": "\u547d\u4ee4\u884c"
+        },
+        {
+            "location": "/command/#_2",
+            "text": "$ php think graph init     \u53ef\u9009\u53c2\u6570  \u8bf4\u660e      force  \u5f3a\u5236\u91cd\u65b0\u521d\u59cb\u5316\uff0c \u4f1a\u8986\u76d6\u6389\u4e4b\u524d\u7684\u914d\u7f6e \uff0c\u8bf7\u5c0f\u5fc3\u4f7f\u7528\uff0c\u4f8b\u5982  php think graph init --force",
+            "title": "\u521d\u59cb\u5316"
+        },
+        {
+            "location": "/command/#_3",
+            "text": "\u521b\u5efa\u6a21\u7248\u6587\u4ef6\uff0c\u76ee\u524d\u652f\u6301\u751f\u6210 ObjectType \u6a21\u7248\u3002  $ php think graph make --type http/BlogType     \u53ef\u9009\u53c2\u6570  \u8bf4\u660e      type  \u751f\u6210\u4e00\u4e2a ObjectType \u6a21\u7248\u6587\u4ef6\uff0c\u751f\u6210\u51fa\u6765\u7684\u6587\u4ef6\u5c06\u4f1a\u5728 application \u6587\u4ef6\u5939\u7684\u5bf9\u5e94\u8def\u5f84\u4e2d\uff0c\u4f8b\u5982  php think graph make --type http/BlogType \u5c06\u4f1a\u751f\u6210 /application/http/BlogType.php    force  \u5f3a\u5236\u91cd\u65b0\u751f\u6210\u6a21\u7248\u6587\u4ef6\uff0c\u4f8b\u5982  php think graph make --type http/BlogTyp --force",
+            "title": "\u521b\u5efa"
+        },
+        {
+            "location": "/middleware/",
+            "text": "\u4e2d\u95f4\u4ef6\n\n\nthink-graphql\n \u7684\u4e2d\u95f4\u4ef6\u7528\u4e8e\u5728\u8bf7\u6c42\u65f6\u5904\u7406\u6216\u62e6\u622a\u7528\u6237\u8bf7\u6c42\uff0c\nthink-graphql\n \u7684\u4e2d\u95f4\u4ef6\u53ea\u5bf9GraphQL\u7684\u63a5\u53e3\u751f\u6548\u3002\n\n\n\u5b9a\u4e49\u4e2d\u95f4\u4ef6\n\n\n\u5b9a\u4e49\u4e2d\u95f4\u4ef6\u7684\u65b9\u6cd5\u53c2\u89c1 \nThinkPHP\u7684\u4e2d\u95f4\u4ef6\n\u3002\n\n\n\u6240\u4f7f\u7528\u7684\u4e2d\u95f4\u4ef6\u7c7b\u7684\u793a\u4f8b\u5982\u4e0b\u3002\n\n\n<?php\n\nnamespace app\\http\\middleware;\n\nclass Check\n{\n    public function handle($request, \\Closure $next)\n    {\n        if ($request->param('name') == 'think') {\n            return redirect('index/think');\n        }\n\n        return $next($request);\n    }\n}\n\n\n\n\n\u6ce8\u518c\u4e2d\u95f4\u4ef6\n\n\n\u5728 \n/config/graph.php\n \u4e2d\u627e\u5230 \nmiddleware\n \u914d\u7f6e\u6570\u7ec4\uff0c\u5c06\u4f60\u5b9a\u4e49\u7684\u4e2d\u95f4\u4ef6\u52a0\u5165\u5373\u53ef\u3002\n\n\n'middleware' => [\n    app\\http\\middleware\\Check::class\n]\n\n\n\n\n\u6216\n\n\n'middleware' => app\\http\\middleware\\Check::class",
+            "title": "\u4e2d\u95f4\u4ef6"
+        },
+        {
+            "location": "/middleware/#_1",
+            "text": "think-graphql  \u7684\u4e2d\u95f4\u4ef6\u7528\u4e8e\u5728\u8bf7\u6c42\u65f6\u5904\u7406\u6216\u62e6\u622a\u7528\u6237\u8bf7\u6c42\uff0c think-graphql  \u7684\u4e2d\u95f4\u4ef6\u53ea\u5bf9GraphQL\u7684\u63a5\u53e3\u751f\u6548\u3002",
+            "title": "\u4e2d\u95f4\u4ef6"
+        },
+        {
+            "location": "/middleware/#_2",
+            "text": "\u5b9a\u4e49\u4e2d\u95f4\u4ef6\u7684\u65b9\u6cd5\u53c2\u89c1  ThinkPHP\u7684\u4e2d\u95f4\u4ef6 \u3002  \u6240\u4f7f\u7528\u7684\u4e2d\u95f4\u4ef6\u7c7b\u7684\u793a\u4f8b\u5982\u4e0b\u3002  <?php\n\nnamespace app\\http\\middleware;\n\nclass Check\n{\n    public function handle($request, \\Closure $next)\n    {\n        if ($request->param('name') == 'think') {\n            return redirect('index/think');\n        }\n\n        return $next($request);\n    }\n}",
+            "title": "\u5b9a\u4e49\u4e2d\u95f4\u4ef6"
+        },
+        {
+            "location": "/middleware/#_3",
+            "text": "\u5728  /config/graph.php  \u4e2d\u627e\u5230  middleware  \u914d\u7f6e\u6570\u7ec4\uff0c\u5c06\u4f60\u5b9a\u4e49\u7684\u4e2d\u95f4\u4ef6\u52a0\u5165\u5373\u53ef\u3002  'middleware' => [\n    app\\http\\middleware\\Check::class\n]  \u6216  'middleware' => app\\http\\middleware\\Check::class",
+            "title": "\u6ce8\u518c\u4e2d\u95f4\u4ef6"
         }
     ]
 }
