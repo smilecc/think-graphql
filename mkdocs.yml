@@ -11,3 +11,6 @@ pages:
       - 自定义类型: 'type/define.md'
       - 对象类型: 'type/object.md'
       - 变更与输入类型: 'type/mutation-input.md'
+      - 标量与枚举: 'type/scalar-enum.md'
+    - 命令行: command.md
+    - 中间件: middleware.md
