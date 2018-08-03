@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=7.0",
-        "webonyx/graphql-php": "0.12.2"
+        "webonyx/graphql-php": ">=0.12.2"
     },
     "license": "MIT",
     "authors": [

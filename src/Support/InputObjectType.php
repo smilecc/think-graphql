@@ -16,7 +16,7 @@ class InputObjectType extends GraphQLInputObjectType
                 'name' => $attrs['name'],
                 'desc' => $attrs['desc'],
                 'fields' => function () use ($self) {
-                    return $self->fields();
+                    return $self->processFields($self->fields());
                 }
             ];
         }
@@ -25,6 +25,9 @@ class InputObjectType extends GraphQLInputObjectType
         if (array_key_exists('desc', $config)) {
             $config['description'] = $config['desc'];
             unset($config['desc']);
+        }
+        if (array_key_exists('fields', $config)) {
+            $config['fields'] = $this->processFields($config['fields']);
         }
 
         parent::__construct($config);
@@ -41,5 +44,24 @@ class InputObjectType extends GraphQLInputObjectType
     public function fields()
     {
         return [];
+    }
+
+    /**
+     * 处理fields
+     * 处理简写
+     *
+     * @param [type] $fields
+     * @return void
+     */
+    private function processFields($fields)
+    {
+        if (is_array($fields)) {
+            foreach ($fields as $key => &$field) {
+                if (is_array($field) && array_key_exists('desc', $field)) {
+                    $field['description'] = $field['desc'];
+                }
+            }
+        }
+        return $fields;
     }
 }

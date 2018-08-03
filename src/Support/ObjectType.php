@@ -53,12 +53,11 @@ class ObjectType extends GraphQLObjectType
 
                 // 处理fieldsMap
                 $fieldName = $info->fieldName;
-                if (method_exists($this, 'fieldsMap')) {
-                    $fieldsMap = $this->fieldsMap();
-                    if (array_key_exists($fieldName, $fieldsMap)) {
-                        $fieldName = $fieldsMap[$fieldName];
-                    }
+                $fieldsMap = $this->fieldsMap();
+                if (array_key_exists($fieldName, $fieldsMap)) {
+                    $fieldName = $fieldsMap[$fieldName];
                 }
+
                 // 替换fieldName中的_下划线
                 $methodName = "resolve" . str_replace('_', '', $fieldName);
 
@@ -92,6 +91,11 @@ class ObjectType extends GraphQLObjectType
     }
 
     public function fields()
+    {
+        return [];
+    }
+
+    public function fieldsMap()
     {
         return [];
     }
