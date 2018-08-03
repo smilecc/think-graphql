@@ -51,13 +51,21 @@ class ObjectType extends GraphQLObjectType
                     return $this->resolveField($val, $args, $context, $info);
                 }
 
+                // 处理fieldsMap
+                $fieldName = $info->fieldName;
+                if (method_exists($this, 'fieldsMap')) {
+                    $fieldsMap = $this->fieldsMap();
+                    if (array_key_exists($fieldName, $fieldsMap)) {
+                        $fieldName = $fieldsMap[$fieldName];
+                    }
+                }
                 // 替换fieldName中的_下划线
-                $methodName = "resolve" . str_replace('_', '', $info->fieldName);
+                $methodName = "resolve" . str_replace('_', '', $fieldName);
 
                 if (method_exists($this, $methodName)) {
                     return $this->{$methodName}($val, $args, $context, $info);
                 } else {
-                    return array_key_exists($info->fieldName, $val) ? $val[$info->fieldName] : null;
+                    return array_key_exists($fieldName, $val) ? $val[$fieldName] : null;
                 }
             }
         ];
