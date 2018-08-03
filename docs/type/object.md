@@ -108,13 +108,10 @@ class UserType extends ObjectType
 
 方法名 | 返回类型 | 说明
 --- | --- | ---
-attrs | array | 定义
-int | 整型
-float | 浮点数
-string | 字符串
-boolean | 布尔值
-nonNull | 非空类型
-listOf | 列表类型
+attrs | array | 用于类型属性
+fields | array | 用于该类型的字段
+fieldsMap | array | 用于设置字段重指向数据源中的字段
+resolveField | any | 由实例自己处理所有field的数据返回
 
 ### attrs(): array
 
