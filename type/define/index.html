@@ -89,12 +89,14 @@
         
             <li><a class="toctree-l4" href="#_2">定义方式</a></li>
         
-            <li><a class="toctree-l4" href="#objecttype">ObjectType</a></li>
-        
         </ul>
     
 
     </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../object/">对象类型</a>
                 </li>
                 <li class="">
                     
@@ -205,101 +207,6 @@ class GraphType extends ObjectType
     }
 }
 </code></pre>
-
-<h2 id="objecttype">ObjectType</h2>
-<pre><code class="php">&lt;?php
-namespace app\http\graph;
-
-use \smilecc\think\Support\Types;
-use \smilecc\think\Support\ObjectType;
-
-class QueryType extends ObjectType
-{
-    public function attrs()
-    {
-        return [
-            'name' =&gt; 'GraphQueryType',
-            'desc' =&gt; 'think-graphql的演示类型'
-        ];
-    }
-
-    public function fields()
-    {
-        return [
-            'hello_world' =&gt; Types::user(),
-            'user' =&gt; [
-                'type' =&gt; Types::user(),
-                'args' =&gt; [
-                    'id' =&gt; Types::nonNull(Types::id())
-                ]
-            ]
-        ];
-    }
-
-    public function resolveHelloWorld($val, $args)
-    {
-        return 'hello world!!!';
-    }
-
-    public function resolveUser($val, $args)
-    {
-        return [
-            'id' =&gt; $args['id'],
-            'nickname' =&gt; 'TestUser',
-            'created_time' =&gt; '2018-07-31 17:21:50'
-        ];
-    }
-}
-
-</code></pre>
-
-<ul>
-<li><code>attrs</code> 定义了该Type的名称及描述。</li>
-<li><code>fields</code> 定义了该Type的返回字段。</li>
-</ul>
-<p>此例中我们定义了一个名叫<code>hello_world</code>的字段，那么只需要定义一个<code>resolveHelloWorld</code>方法为他设置一个值。</p>
-<p>我们可以看出字段中使用下划线或小驼峰的情况，我们在<code>resolve</code>时可以直接使用大驼峰来处理它。</p>
-<p>例如<code>hello_world</code>-&gt;<code>resolveHelloWorld</code>、<code>craeted_time</code>-&gt;<code>resolveCreatedTime</code>。</p>
-<p>在使用我们的自定义Type的时候，我们只需要返回一个数组既可。</p>
-<pre><code class="php">public function resolveUser($val, $args)
-{
-    return [
-        'id' =&gt; $args['id'],
-        'nickname' =&gt; 'TestUser',
-        'created_time' =&gt; '2018-07-31 17:21:50'
-    ];
-}
-</code></pre>
-
-<p>在自定义Type的内部，如果我们在外层返回数组中的字段名和自定义Type内部fields中设置的相同，那么无需任何操作，<code>think-graphql</code>会自动帮你返回该值。</p>
-<p>如果和内部定义的不一致或需要二次处理，那么我们在自定义Type的内部则需要resolve该字段自己处理一下。</p>
-<pre><code class="php">class UserType extends ObjectType
-{
-    public function attrs()
-    {
-        return [
-            'name' =&gt; 'UserType',
-            'desc' =&gt; '用户类型'
-        ];
-    }
-
-    public function fields()
-    {
-        return [
-            'id' =&gt; Types::id(),
-            'nickname' =&gt; Types::string(),
-            'created_time' =&gt; Types::string()
-        ];
-    }
-
-    public function resolveCreatedTime($val)
-    {
-        return strtotime($val['created_time']);
-    }
-}
-</code></pre>
-
-<p>在这个例子中我们就把上层传递过来的数据 <code>$val</code> 中的 <code>created_time</code> 转换成时间戳再返回。</p>
               
             </div>
           </div>
@@ -307,7 +214,7 @@ class QueryType extends ObjectType
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../mutation-input/" class="btn btn-neutral float-right" title="变更与输入类型">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../object/" class="btn btn-neutral float-right" title="对象类型">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../build-in/" class="btn btn-neutral" title="内置类型"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -339,7 +246,7 @@ class QueryType extends ObjectType
         <span><a href="../build-in/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../mutation-input/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../object/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

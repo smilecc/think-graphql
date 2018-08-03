@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>对象类型 - think-graphql</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u5bf9\u8c61\u7c7b\u578b";
+    var mkdocs_page_input_path = "type\\object.md";
+    var mkdocs_page_url = "/type/object/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> think-graphql</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">关于</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../started/">开始</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../config/">配置</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">类型定义</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../intro/">介绍</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../reg/">类型注册表</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../build-in/">内置类型</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../define/">自定义类型</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">对象类型</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#objecttype">对象类型（ObjectType）</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#_1">使用方式</a></li>
+        
+            <li><a class="toctree-l4" href="#_2">可重写的方法</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../mutation-input/">变更与输入类型</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">think-graphql</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>类型定义 &raquo;</li>
+        
+      
+    
+    <li>对象类型</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="objecttype">对象类型（ObjectType）</h1>
+<h2 id="_1">使用方式</h2>
+<pre><code class="php">&lt;?php
+namespace app\http\graph;
+
+use \smilecc\think\Support\Types;
+use \smilecc\think\Support\ObjectType;
+
+class QueryType extends ObjectType
+{
+    public function attrs()
+    {
+        return [
+            'name' =&gt; 'GraphQueryType',
+            'desc' =&gt; 'think-graphql的演示类型'
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'hello_world' =&gt; Types::user(),
+            'user' =&gt; [
+                'type' =&gt; Types::user(),
+                'args' =&gt; [
+                    'id' =&gt; Types::nonNull(Types::id())
+                ]
+            ]
+        ];
+    }
+
+    public function resolveHelloWorld($val, $args)
+    {
+        return 'hello world!!!';
+    }
+
+    public function resolveUser($val, $args)
+    {
+        return [
+            'id' =&gt; $args['id'],
+            'nickname' =&gt; 'TestUser',
+            'created_time' =&gt; '2018-07-31 17:21:50'
+        ];
+    }
+}
+
+</code></pre>
+
+<ul>
+<li><code>attrs</code> 定义了该Type的名称及描述。</li>
+<li><code>fields</code> 定义了该Type的返回字段。</li>
+</ul>
+<p>此例中我们定义了一个名叫<code>hello_world</code>的字段，那么只需要定义一个<code>resolveHelloWorld</code>方法为他设置一个值。</p>
+<p>我们可以看出字段中使用下划线或小驼峰的情况，我们在<code>resolve</code>时可以直接使用大驼峰来处理它。</p>
+<p>例如<code>hello_world</code>-&gt;<code>resolveHelloWorld</code>、<code>craeted_time</code>-&gt;<code>resolveCreatedTime</code>。</p>
+<p>在使用我们的自定义Type的时候，我们只需要返回一个数组既可。</p>
+<pre><code class="php">public function resolveUser($val, $args)
+{
+    return [
+        'id' =&gt; $args['id'],
+        'nickname' =&gt; 'TestUser',
+        'created_time' =&gt; '2018-07-31 17:21:50'
+    ];
+}
+</code></pre>
+
+<p>在自定义Type的内部，如果我们在外层返回数组中的字段名和自定义Type内部fields中设置的相同，那么无需任何操作，<code>think-graphql</code>会自动帮你返回该值。</p>
+<p>如果和内部定义的不一致或需要二次处理，那么我们在自定义Type的内部则需要resolve该字段自己处理一下。</p>
+<pre><code class="php">class UserType extends ObjectType
+{
+    public function attrs()
+    {
+        return [
+            'name' =&gt; 'UserType',
+            'desc' =&gt; '用户类型'
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id' =&gt; Types::id(),
+            'nickname' =&gt; Types::string(),
+            'created_time' =&gt; Types::string()
+        ];
+    }
+
+    public function resolveCreatedTime($val)
+    {
+        return strtotime($val['created_time']);
+    }
+}
+</code></pre>
+
+<p>在这个例子中我们就把上层传递过来的数据 <code>$val</code> 中的 <code>created_time</code> 转换成时间戳再返回。</p>
+<h2 id="_2">可重写的方法</h2>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>attrs</td>
+<td>array</td>
+<td>定义</td>
+</tr>
+<tr>
+<td>int</td>
+<td>整型</td>
+<td></td>
+</tr>
+<tr>
+<td>float</td>
+<td>浮点数</td>
+<td></td>
+</tr>
+<tr>
+<td>string</td>
+<td>字符串</td>
+<td></td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>布尔值</td>
+<td></td>
+</tr>
+<tr>
+<td>nonNull</td>
+<td>非空类型</td>
+<td></td>
+</tr>
+<tr>
+<td>listOf</td>
+<td>列表类型</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="attrs-array">attrs(): array</h3>
+<p>定义当前类型的属性</p>
+<pre><code class="php">public function attrs()
+{
+    return [
+        'name' =&gt; 'ExampleType',
+        'desc' =&gt; '演示类型'
+    ];
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><strong>必需的</strong> 当前类型的名称</td>
+</tr>
+<tr>
+<td>desc</td>
+<td>当前类型的描述</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fields-array">fields(): array</h3>
+<p>定义当前类型的返回字段</p>
+<pre><code class="php">public function fields()
+{
+    return [
+        'simple' =&gt; Types::string(),
+        'custom' =&gt; [
+            'name' =&gt; 'CustomField',
+            'type' =&gt; Types::string(),
+            'desc' =&gt; '自定义字段',
+            'args' =&gt; [
+                'id' =&gt; Types::id(),
+                'example' =&gt; [
+                    'name' =&gt; 'ExampleArgField',
+                    'type' =&gt; Types::string(),
+                    'desc' =&gt; '实例参数字段',
+                    'defaultValue' =&gt; '默认值'
+                ]
+            ]
+        ]
+    ];
+}
+</code></pre>
+
+<p>以下是当字段类型为一个数组时，可选的数组成员：</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><strong>必需的</strong> 字段的类型</td>
+</tr>
+<tr>
+<td>name</td>
+<td>字段的名称</td>
+</tr>
+<tr>
+<td>desc</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>args</td>
+<td>参数列表</td>
+</tr>
+<tr>
+<td>deprecationReason</td>
+<td>标识这个字段已经废弃的原因，当不为空时，GraphQL的内省方法不再返回该字段，但是仍然能使用该字段查询</td>
+</tr>
+</tbody>
+</table>
+<h4 id="args">args字段</h4>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><strong>必需的</strong> 参数的类型</td>
+</tr>
+<tr>
+<td>name</td>
+<td>参数的名称</td>
+</tr>
+<tr>
+<td>desc</td>
+<td>描述</td>
+</tr>
+<tr>
+<td>defaultValue</td>
+<td>默认值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fieldsmap-array">fieldsMap(): array</h3>
+<p>通过重写这个方法，你可以改变 <code>fields</code> 中某个字段在数据源中的指向。</p>
+<p>例如 <code>fields</code> 中存在一个叫 <code>title</code> 的字段，但是它在数据源中的实际字段名叫 <code>article_title</code>，那么我们只需要使用如下代码就可以将其指向到它的实际数据源。</p>
+<pre><code class="php">public function fieldsMap()
+{
+    return [
+        'title' =&gt; 'article_title'
+    ];
+}
+</code></pre>
+
+<h3 id="resolvefieldvalue-args-context-info-any">resolveField($value, $args, $context, $info): any</h3>
+<p><strong>注意</strong> 当您重写了这个方法的时候，think-graphql的自动调用 <code>resolve字段名</code> 和自动从 <code>$value</code> 中返回数据的功能将<strong>失效</strong>，而将使用您定义的 <code>resolveField</code> 方法的返回值。</p>
+<p>所以您可以重写这个函数来自定义字段 <code>resolve</code> 机制，以下这个例子是在无 <code>resolve字段名</code> 方法时返回默认值 <code>[]</code> 。</p>
+<pre><code class="php">public function resolveField($val, $args, $context, \GraphQL\Type\Definition\ResolveInfo $info)
+{
+    $methodName = &quot;resolve&quot; . str_replace('_', '', $info-&gt;fieldName);
+    if (method_exists($this, $methodName)) {
+        return $this-&gt;{$methodName}($val, $args, $context, $info);
+    } else {
+        return [];
+    }
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../mutation-input/" class="btn btn-neutral float-right" title="变更与输入类型">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../define/" class="btn btn-neutral" title="自定义类型"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../define/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../mutation-input/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/require.js"></script>
+      <script src="../../search/search.js"></script>
+
+</body>
+</html>

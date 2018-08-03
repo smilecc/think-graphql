@@ -2,42 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/started/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/config/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/type/intro/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/type/reg/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/type/build-in/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/type/define/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>/type/object/</loc>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/type/mutation-input/</loc>
-     <lastmod>2018-08-01</lastmod>
+     <lastmod>2018-08-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
