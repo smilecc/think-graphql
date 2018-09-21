@@ -13,7 +13,7 @@ Better GraphQL SDK for thinkphp 5
 
 2. 本项目是在`graphql-php`的基础上二次封装，所有的Type都完全兼容`graphql-php`。
 
-3. 在使用前建议您阅读文档、查看Demo（正在开发）来了解使用方法。
+3. 在使用前建议您阅读文档、[查看Demo](https://github.com/smilecc/think-graphql-demo)来了解使用方法。
 
 ## 安装
 
