@@ -1,13 +1,12 @@
 <?php
 namespace smilecc\think;
 
-use think\Controller;
 use smilecc\think\GraphQLMiddleware;
 use smilecc\think\Support\Types;
 use \GraphQL\Type\Schema;
 use \GraphQL\GraphQL;
 
-class GraphQLController extends Controller
+class GraphQLController
 {
     public function action($action)
     {
