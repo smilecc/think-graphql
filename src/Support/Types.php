@@ -10,7 +10,7 @@ class Types
     // GraphQL的配置
     protected static $config;
     // 存储已经生成的type
-    private static $typeList = [];
+    protected static $typeList = [];
 
     public static function __callStatic($name, $arguments)
     {
@@ -44,7 +44,7 @@ class Types
      * @param [type] $arguments
      * @return void
      */
-    private static function getType($className, $typeName, $directive, $arguments)
+    protected static function getType($className, $typeName, $directive, $arguments)
     {
         $typeListKey = "{$typeName}_{$directive}";
         // 如果已经创建该Type则直接从TypeList中返回
